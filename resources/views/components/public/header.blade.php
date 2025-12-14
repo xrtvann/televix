@@ -11,10 +11,10 @@
                             <a class="text-sm font-medium hover:text-primary transition-colors" href="{{ route('home') }}">Home</a>
                             <a class="text-sm font-medium hover:text-primary transition-colors"
                                 href="{{ route('layanan') }}">Layanan</a>
-                            <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Tentang
+                            <a class="text-sm font-medium hover:text-primary transition-colors" href="{{ route('tentang-kami') }}">Tentang
                                 Kami</a>
                             <a class="text-sm font-medium hover:text-primary transition-colors"
-                                href="#">Kontak</a>
+                                href="{{ route('kontak') }}">Kontak</a>
 
                         </div>
                     </div>

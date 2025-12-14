@@ -14,7 +14,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="w-full bg-center bg-no-repeat aspect-video md:aspect-[4/3] lg:aspect-video bg-cover rounded-xl shadow-xl"
+                        <div class="w-full bg-center bg-no-repeat aspect-video md:aspect-4/3 lg:aspect-video bg-cover rounded-xl shadow-xl"
                             data-alt="Teknisi profesional sedang memperbaiki televisi modern di ruang kerja yang bersih"
                             style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB_VOLnRwIpnt7ycifEvyeJHNx4guYnXgy0qwBGOrqkjrj81WTssgjYbwRvjAoiGwcQD5J_WFE2PYPa70p6hEOtfA2fhA8L4Ic7GFKoHuMxHH7FfBa77rtv4ei7fEAxXlKm3SQ44d_EpfIuQHaIfEJolZtWy_5ZeIExUl5rKSlD4p4zhoO58hEtS1T4d3ePbrZ01Kuby_rhJdncYyMysSKoYdD0zxz1rxwBSxywThS3yOEwd27K9h4Cbj5jI38ebceteR_WlZ7pcW6m");'>
                         </div>
@@ -34,21 +34,21 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div
                             class="flex flex-col gap-3 rounded-xl border border-gray-200/80 dark:border-gray-800 bg-background-light dark:bg-gray-900 p-6 text-center items-center shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300">
-                            <span class="material-symbols-outlined text-primary !text-4xl mb-3">build_circle</span>
+                            <span class="material-symbols-outlined text-primary text-4xl! mb-3">build_circle</span>
                             <h3 class="text-lg font-bold leading-tight">Teknisi Berpengalaman</h3>
                             <p class="text-sm font-normal leading-normal text-gray-600 dark:text-gray-400">Tim kami
                                 terdiri dari teknisi ahli yang berpengalaman menangani berbagai jenis kerusakan TV.</p>
                         </div>
                         <div
                             class="flex flex-col gap-3 rounded-xl border border-gray-200/80 dark:border-gray-800 bg-background-light dark:bg-gray-900 p-6 text-center items-center shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300">
-                            <span class="material-symbols-outlined text-primary !text-4xl mb-3">verified_user</span>
+                            <span class="material-symbols-outlined text-primary text-4xl! mb-3">verified_user</span>
                             <h3 class="text-lg font-bold leading-tight">Garansi Perbaikan</h3>
                             <p class="text-sm font-normal leading-normal text-gray-600 dark:text-gray-400">Setiap
                                 perbaikan disertai garansi untuk memberikan Anda ketenangan pikiran.</p>
                         </div>
                         <div
                             class="flex flex-col gap-3 rounded-xl border border-gray-200/80 dark:border-gray-800 bg-background-light dark:bg-gray-900 p-6 text-center items-center shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300">
-                            <span class="material-symbols-outlined text-primary !text-4xl mb-3">schedule</span>
+                            <span class="material-symbols-outlined text-primary text-4xl! mb-3">schedule</span>
                             <h3 class="text-lg font-bold leading-tight">Layanan Cepat</h3>
                             <p class="text-sm font-normal leading-normal text-gray-600 dark:text-gray-400">Kami
                                 menghargai waktu Anda dengan memberikan layanan yang cepat dan tepat waktu.</p>
@@ -69,21 +69,21 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div
                             class="flex flex-col gap-4 rounded-xl border border-gray-200/80 dark:border-gray-800 bg-white dark:bg-background-dark p-6 shadow-sm hover:shadow-lg transition-shadow">
-                            <span class="material-symbols-outlined text-primary !text-4xl">tv</span>
+                            <span class="material-symbols-outlined text-primary text-4xl!">tv</span>
                             <h3 class="text-lg font-bold">Perbaikan TV LED/LCD</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400">Masalah gambar, suara, atau mati total
                                 pada TV LED/LCD Anda? Kami solusinya.</p>
                         </div>
                         <div
                             class="flex flex-col gap-4 rounded-xl border border-gray-200/80 dark:border-gray-800 bg-white dark:bg-background-dark p-6 shadow-sm hover:shadow-lg transition-shadow">
-                            <span class="material-symbols-outlined text-primary !text-4xl">desktop_windows</span>
+                            <span class="material-symbols-outlined text-primary text-4xl!">desktop_windows</span>
                             <h3 class="text-lg font-bold">Service TV Tabung</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400">Kami masih melayani perbaikan untuk TV
                                 tabung (CRT) dengan berbagai kerusakan.</p>
                         </div>
                         <div
                             class="flex flex-col gap-4 rounded-xl border border-gray-200/80 dark:border-gray-800 bg-white dark:bg-background-dark p-6 shadow-sm hover:shadow-lg transition-shadow">
-                            <span class="material-symbols-outlined text-primary !text-4xl">smart_display</span>
+                            <span class="material-symbols-outlined text-primary text-4xl!">smart_display</span>
                             <h3 class="text-lg font-bold">Pemasangan Smart TV</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400">Bantuan instalasi, setup, dan koneksi
                                 internet untuk Smart TV baru Anda.</p>

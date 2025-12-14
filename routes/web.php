@@ -15,6 +15,14 @@ Route::get('/layanan', function () {
     return view('pages.public.layanan');
 })->name('layanan');
 
+Route::get('/tentang-kami', function () {
+    return view('pages.public.tentang-kami');
+})->name('tentang-kami');
+
+Route::get('/kontak', function () {
+    return view('pages.public.kontak');
+})->name('kontak');
+
 Route::get('/reset-password', function () {
     return view('pages.public.reset-password');
 })->name('reset-password');
