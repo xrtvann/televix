@@ -15,8 +15,7 @@
                                 Kami</a>
                             <a class="text-sm font-medium hover:text-primary transition-colors"
                                 href="#">Kontak</a>
-                            <a href="#"
-                                class="py-2 px-8 rounded-lg bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity shadow-lg shadow-primary/20">Login</a>
+
                         </div>
                     </div>
                     <div class="flex items-center gap-4 ms-5">
@@ -30,6 +29,10 @@
                             class="md:hidden flex items-center justify-center p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
                             <span class="material-symbols-outlined"> menu </span>
                         </button>
+                    </div>
+                    <div class="flex ms-5">
+                        <a href="{{ route('login') }}"
+                                class="py-2 px-8 rounded-lg bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity shadow-lg shadow-primary/20">Masuk</a>
                     </div>
                 </div>
             </div>
