@@ -19,6 +19,7 @@
 :root.dark {
     --color-background-light: #111827;
     --color-background-dark: #1f2937;
+;
 }
 
 .material-symbols-outlined.hidden {

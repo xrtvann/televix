@@ -8,9 +8,9 @@
                     </div>
                     <div class="hidden md:flex flex-1 justify-end">
                         <div class="flex items-center gap-8">
-                            <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Home</a>
+                            <a class="text-sm font-medium hover:text-primary transition-colors" href="{{ route('home') }}">Home</a>
                             <a class="text-sm font-medium hover:text-primary transition-colors"
-                                href="#">Layanan</a>
+                                href="{{ route('layanan') }}">Layanan</a>
                             <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Tentang
                                 Kami</a>
                             <a class="text-sm font-medium hover:text-primary transition-colors"
