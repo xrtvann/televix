@@ -23,6 +23,14 @@ Route::get('/kontak', function () {
     return view('pages.public.kontak');
 })->name('kontak');
 
+Route::get('/dashboard', function () {
+    return view('pages.admin.dashboard');
+})->name('dashboard');
+
+Route::get('/manajemen-servis', function () {
+    return view('pages.admin.manajemen-servis');
+})->name('manajemen-servis');
+
 Route::get('/reset-password', function () {
     return view('pages.public.reset-password');
 })->name('reset-password');
