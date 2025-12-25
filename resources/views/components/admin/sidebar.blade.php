@@ -39,7 +39,7 @@
                             Servis</span>
                     </a>
                     <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('manajemen-pelanggan') ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-slate-50 dark:hover:bg-gray-800 text-slate-600 dark:text-slate-400' }} transition-colors"
-                        href="#">
+                        href="{{ route('manajemen-pelanggan') }}">
                         <span
                             class="material-symbols-outlined text-[20px] {{ request()->routeIs('manajemen-pelanggan') ? '' : 'group-hover:text-slate-800 dark:group-hover:text-slate-200' }} transition-colors">groups</span>
                         <span

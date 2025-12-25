@@ -7,12 +7,12 @@
         $pageSubtitle = 'Kelola semua data perbaikan TV di sini.';
     } elseif (request()->routeIs('manajemen-pelanggan')) {
         $pageTitle = 'Manajemen Pelanggan';
-        $pageSubtitle = 'Kelola data pelanggan dan riwayat transaksi';
+        $pageSubtitle = 'Kelola data pelanggan dan riwayat servis di sini.';
     }
 @endphp
 
    <header
-                class="flex-shrink-0 flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e5e7eb] dark:border-gray-800 bg-white dark:bg-[#111418] px-6 py-3 z-10">
+                class="shrink-0 flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e5e7eb] dark:border-gray-800 bg-white dark:bg-[#111418] px-6 py-3 z-10">
                 <div class="flex items-center gap-4">
                     <button class="md:hidden p-2 text-slate-500">
                         <span class="material-symbols-outlined">menu</span>

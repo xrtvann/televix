@@ -31,6 +31,10 @@ Route::get('/manajemen-servis', function () {
     return view('pages.admin.manajemen-servis');
 })->name('manajemen-servis');
 
+Route::get('/manajemen-pelanggan', function () {
+    return view('pages.admin.manajemen-pelanggan');
+})->name('manajemen-pelanggan');
+
 Route::get('/reset-password', function () {
     return view('pages.public.reset-password');
 })->name('reset-password');
