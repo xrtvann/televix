@@ -35,7 +35,7 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <button
-                            class="relative p-2 rounded-full hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-600 dark:text-slate-300 transition-colors">
+                            class="relative flex p-2 rounded-full hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-600 dark:text-slate-300 transition-colors">
                             <span class="material-symbols-outlined">notifications</span>
                             <span class="absolute top-2 right-2 flex h-2 w-2">
                                 <span
@@ -44,7 +44,7 @@
                             </span>
                         </button>
                         <button
-                            class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-600 dark:text-slate-300 transition-colors">
+                            class="flex p-2 rounded-full hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-600 dark:text-slate-300 transition-colors">
                             <span class="material-symbols-outlined">help</span>
                         </button>
                     </div>

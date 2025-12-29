@@ -72,7 +72,7 @@
                 class="bg-white dark:bg-[#111418] rounded-xl border border-slate-200 dark:border-gray-800 shadow-sm overflow-hidden flex-1">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
-                        <thead>
+                        <thead class="sticky top-0 z-10">
                             <tr class="bg-slate-50 dark:bg-gray-800/50 border-b border-slate-200 dark:border-gray-700">
                                 <th
                                     class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider whitespace-nowrap">
@@ -106,7 +106,7 @@
                                             <span
                                                 class="text-sm font-semibold text-slate-900 dark:text-white hover:text-primary cursor-pointer">Pak
                                                 Hendra</span>
-                                            <span class="text-xs text-slate-500">ID: #CUST-089</span>
+
                                         </div>
                                     </div>
                                 </td>
@@ -197,7 +197,7 @@
                                             <span
                                                 class="text-sm font-semibold text-slate-900 dark:text-white hover:text-primary cursor-pointer">Ahmad
                                                 Fauzi</span>
-                                            <span class="text-xs text-slate-500">ID: #CUST-102</span>
+
                                         </div>
                                     </div>
                                 </td>
@@ -290,7 +290,7 @@
                                             <span
                                                 class="text-sm font-semibold text-slate-900 dark:text-white hover:text-primary cursor-pointer">Siti
                                                 Aminah</span>
-                                            <span class="text-xs text-slate-500">ID: #CUST-055</span>
+
                                         </div>
                                     </div>
                                 </td>
@@ -381,10 +381,6 @@
                                             <span
                                                 class="text-sm font-semibold text-slate-900 dark:text-white hover:text-primary cursor-pointer">Hotel
                                                 Merdeka</span>
-                                            <span class="text-xs text-slate-500 flex items-center gap-1">
-                                                <span class="material-symbols-outlined text-[10px]">domain</span> Klien
-                                                Korporat
-                                            </span>
                                         </div>
                                     </div>
                                 </td>
@@ -476,7 +472,7 @@
                                             <span
                                                 class="text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-primary cursor-pointer">Dani
                                                 Rosyid</span>
-                                            <span class="text-xs text-slate-400">ID: #CUST-115</span>
+
                                         </div>
                                     </div>
                                 </td>
@@ -566,7 +562,7 @@
                                             <span
                                                 class="text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-primary cursor-pointer">Rina
                                                 Wati</span>
-                                            <span class="text-xs text-slate-400">ID: #CUST-021</span>
+
                                         </div>
                                     </div>
                                 </td>
