@@ -51,55 +51,69 @@
                             class="sidebar-text text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                             Manajemen</p>
                     </div>
-                    <details class="group select-none dropdown-details">
+                    <details class="group select-none dropdown-details"
+                        {{ request()->routeIs('ringkasan-keuangan', 'laporan-operasional') ? 'open' : '' }}>
                         <summary
-                            class="dropdown-toggle flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-800 text-slate-600 dark:text-slate-400 transition-colors cursor-pointer list-none">
+                            class="dropdown-toggle flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg {{ request()->routeIs('ringkasan-keuangan', 'laporan-operasional') ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-slate-50 dark:hover:bg-gray-800 text-slate-600 dark:text-slate-400' }} transition-colors cursor-pointer list-none">
                             <div class="flex items-center gap-3">
                                 <span
-                                    class="material-symbols-outlined text-[20px] group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors">analytics</span>
+                                    class="material-symbols-outlined text-[20px] {{ request()->routeIs('ringkasan-keuangan', 'laporan-operasional') ? '' : 'group-hover:text-slate-800 dark:group-hover:text-slate-200' }} transition-colors">analytics</span>
                                 <span
-                                    class="sidebar-text text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white transition-colors opacity-100">Laporan
+                                    class="sidebar-text text-sm {{ request()->routeIs('ringkasan-keuangan', 'laporan-operasional') ? 'font-semibold' : 'font-medium group-hover:text-slate-900 dark:group-hover:text-white' }} transition-colors opacity-100">Laporan
                                     &amp; Analisis</span>
                             </div>
                             <span
                                 class="dropdown-arrow material-symbols-outlined text-[18px] text-slate-400 transition-transform duration-200 group-open:rotate-180 opacity-100">expand_more</span>
                         </summary>
                         <div class="dropdown-content flex flex-col gap-1 mt-1 pl-9 pr-1">
-                            <a class="flex items-center gap-2 px-2 py-2 rounded-md text-slate-500 dark:text-slate-500 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-colors"
-                                href="#">
-                                <span class="w-1.5 h-1.5 rounded-full bg-current opacity-40"></span>
-                                <span class="sidebar-text text-xs font-medium opacity-100">Ringkasan Keuangan</span>
+                            <a class="flex items-center gap-2 px-2 py-2 rounded-md {{ request()->routeIs('ringkasan-keuangan') ? 'text-primary bg-blue-50/50 dark:bg-blue-900/20 font-medium' : 'text-slate-500 dark:text-slate-500 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-900/10' }} transition-colors"
+                                href="{{ route('ringkasan-keuangan') }}">
+                                <span
+                                    class="w-1.5 h-1.5 rounded-full bg-current {{ request()->routeIs('ringkasan-keuangan') ? 'opacity-100' : 'opacity-40' }}"></span>
+                                <span
+                                    class="sidebar-text text-xs {{ request()->routeIs('ringkasan-keuangan') ? 'font-semibold' : 'font-medium' }} opacity-100">Ringkasan
+                                    Keuangan</span>
                             </a>
-                            <a class="flex items-center gap-2 px-2 py-2 rounded-md text-slate-500 dark:text-slate-500 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-colors"
-                                href="#">
-                                <span class="w-1.5 h-1.5 rounded-full bg-current opacity-40"></span>
-                                <span class="sidebar-text text-xs font-medium opacity-100">Laporan Operasional</span>
+                            <a class="flex items-center gap-2 px-2 py-2 rounded-md {{ request()->routeIs('laporan-operasional') ? 'text-primary bg-blue-50/50 dark:bg-blue-900/20 font-medium' : 'text-slate-500 dark:text-slate-500 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-900/10' }} transition-colors"
+                                href="{{ route('laporan-operasional') }}">
+                                <span
+                                    class="w-1.5 h-1.5 rounded-full bg-current {{ request()->routeIs('laporan-operasional') ? 'opacity-100' : 'opacity-40' }}"></span>
+                                <span
+                                    class="sidebar-text text-xs {{ request()->routeIs('laporan-operasional') ? 'font-semibold' : 'font-medium' }} opacity-100">Laporan
+                                    Operasional</span>
                             </a>
                         </div>
                     </details>
-                    <details class="group select-none dropdown-details">
+                    <details class="group select-none dropdown-details"
+                        {{ request()->routeIs('pengaturan-umum', 'manajemen-staff-rbac') ? 'open' : '' }}>
                         <summary
-                            class="dropdown-toggle flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-800 text-slate-600 dark:text-slate-400 transition-colors cursor-pointer list-none">
+                            class="dropdown-toggle flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg {{ request()->routeIs('pengaturan-umum', 'manajemen-staff-rbac') ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-slate-50 dark:hover:bg-gray-800 text-slate-600 dark:text-slate-400' }} transition-colors cursor-pointer list-none">
                             <div class="flex items-center gap-3">
                                 <span
-                                    class="material-symbols-outlined text-[20px] group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors">admin_panel_settings</span>
+                                    class="material-symbols-outlined text-[20px] {{ request()->routeIs('pengaturan-umum', 'manajemen-staff-rbac') ? '' : 'group-hover:text-slate-800 dark:group-hover:text-slate-200' }} transition-colors">admin_panel_settings</span>
                                 <span
-                                    class="sidebar-text text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white transition-colors opacity-100">Pengaturan
+                                    class="sidebar-text text-sm {{ request()->routeIs('pengaturan-umum', 'manajemen-staff-rbac') ? 'font-semibold' : 'font-medium group-hover:text-slate-900 dark:group-hover:text-white' }} transition-colors opacity-100">Pengaturan
                                     Sistem</span>
                             </div>
                             <span
                                 class="dropdown-arrow material-symbols-outlined text-[18px] text-slate-400 transition-transform duration-200 group-open:rotate-180 opacity-100">expand_more</span>
                         </summary>
                         <div class="dropdown-content flex flex-col gap-1 mt-1 pl-9 pr-1">
-                            <a class="flex items-center gap-2 px-2 py-2 rounded-md text-slate-500 dark:text-slate-500 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-colors"
-                                href="#">
-                                <span class="w-1.5 h-1.5 rounded-full bg-current opacity-40"></span>
-                                <span class="sidebar-text text-xs font-medium">Pengaturan Umum</span>
+                            <a class="flex items-center gap-2 px-2 py-2 rounded-md {{ request()->routeIs('pengaturan-umum') ? 'text-primary bg-blue-50/50 dark:bg-blue-900/20 font-medium' : 'text-slate-500 dark:text-slate-500 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-900/10' }} transition-colors"
+                                href="{{ route('pengaturan-umum') }}">
+                                <span
+                                    class="w-1.5 h-1.5 rounded-full bg-current {{ request()->routeIs('pengaturan-umum') ? 'opacity-100' : 'opacity-40' }}"></span>
+                                <span
+                                    class="sidebar-text text-xs {{ request()->routeIs('pengaturan-umum') ? 'font-semibold' : 'font-medium' }} opacity-100">Pengaturan
+                                    Umum</span>
                             </a>
-                            <a class="flex items-center gap-2 px-2 py-2 rounded-md text-slate-500 dark:text-slate-500 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-colors"
-                                href="#">
-                                <span class="w-1.5 h-1.5 rounded-full bg-current opacity-40"></span>
-                                <span class="sidebar-text text-xs font-medium">Manajemen Staff &amp; Akses (RBAC)</span>
+                            <a class="flex items-center gap-2 px-2 py-2 rounded-md {{ request()->routeIs('manajemen-staff-rbac') ? 'text-primary bg-blue-50/50 dark:bg-blue-900/20 font-medium' : 'text-slate-500 dark:text-slate-500 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-900/10' }} transition-colors"
+                                href="{{ route('manajemen-staff-rbac') }}">
+                                <span
+                                    class="w-1.5 h-1.5 rounded-full bg-current {{ request()->routeIs('manajemen-staff-rbac') ? 'opacity-100' : 'opacity-40' }}"></span>
+                                <span
+                                    class="sidebar-text text-xs {{ request()->routeIs('manajemen-staff-rbac') ? 'font-semibold' : 'font-medium' }} opacity-100">Manajemen
+                                    Staff &amp; Akses (RBAC)</span>
                             </a>
                         </div>
                     </details>

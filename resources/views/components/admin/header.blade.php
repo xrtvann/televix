@@ -8,6 +8,12 @@
     } elseif (request()->routeIs('manajemen-pelanggan')) {
         $pageTitle = 'Manajemen Pelanggan';
         $pageSubtitle = 'Kelola data pelanggan dan riwayat servis di sini.';
+    } elseif (request()->routeIs('ringkasan-keuangan')) {
+        $pageTitle = 'Ringkasan Keuangan';
+        $pageSubtitle = 'Analisa Keuangan anda di sini.';
+    } elseif (request()->routeIs('pengaturan-akun')) {
+        $pageTitle = 'Pengaturan Akun';
+        $pageSubtitle = 'Perbarui informasi akun dan preferensi Anda.';
     }
 @endphp
 

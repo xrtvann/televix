@@ -35,6 +35,22 @@ Route::get('/manajemen-pelanggan', function () {
     return view('pages.admin.manajemen-pelanggan');
 })->name('manajemen-pelanggan');
 
+Route::get('/ringkasan-keuangan', function () {
+    return view('pages.admin.ringkasan-keuangan');
+})->name('ringkasan-keuangan');
+
+Route::get('/laporan-operasional', function () {
+    return view('pages.admin.laporan-operasional');
+})->name('laporan-operasional');
+
+Route::get('/pengaturan-umum', function () {
+    return view('pages.admin.pengaturan-umum');
+})->name('pengaturan-umum');
+
+Route::get('/manajemen-staff-rbac', function () {
+    return view('pages.admin.manajemen-staff-rbac');
+})->name('manajemen-staff-rbac');
+
 Route::get('/reset-password', function () {
     return view('pages.public.reset-password');
 })->name('reset-password');
