@@ -30,6 +30,47 @@
                 </div>
             </div>
             <div class="p-6 md:p-8 flex flex-col gap-6">
+                {{-- Alert Messages --}}
+                @if (session('success'))
+                    <div
+                        class="flex items-center gap-3 p-3.5 bg-green-50 dark:bg-green-500/10 rounded-lg border border-green-100 dark:border-green-500/20">
+                        <span
+                            class="material-symbols-outlined text-green-600 dark:text-green-400 text-[20px] shrink-0">check_circle</span>
+                        <p class="text-sm text-green-900 dark:text-green-100 font-medium leading-snug">
+                            {{ session('success') }}
+                        </p>
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div
+                        class="flex items-center gap-3 p-3.5 bg-red-50 dark:bg-red-500/10 rounded-lg border border-red-100 dark:border-red-500/20">
+                        <span
+                            class="material-symbols-outlined text-red-600 dark:text-red-400 text-[20px] shrink-0">error</span>
+                        <p class="text-sm text-red-900 dark:text-red-100 font-medium leading-snug">
+                            {{ session('error') }}
+                        </p>
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div
+                        class="flex items-start gap-3 p-3.5 bg-red-50 dark:bg-red-500/10 rounded-lg border border-red-100 dark:border-red-500/20">
+                        <span
+                            class="material-symbols-outlined text-red-600 dark:text-red-400 text-[20px] shrink-0 mt-0.5">error</span>
+                        <div class="flex-1">
+                            <p class="text-sm text-red-900 dark:text-red-100 font-medium leading-snug mb-1">
+                                Terjadi kesalahan:
+                            </p>
+                            <ul class="text-sm text-red-800 dark:text-red-200 list-disc list-inside space-y-1">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                @endif
+
                 <div
                     class="flex items-center align-middle gap-3 p-3.5 bg-blue-50 dark:bg-blue-500/10 rounded-lg border border-blue-100 dark:border-blue-500/20">
                     <span
@@ -38,37 +79,47 @@
                         Hanya Owner dan Teknisi yang dapat mengakses portal ini.
                     </p>
                 </div>
-                <form class="flex flex-col gap-5">
+
+                <form action="{{ route('login') }}" method="POST" class="flex flex-col gap-5">
+                    @csrf
                     <label class="flex flex-col gap-2">
-                        <span class="text-[#111418] dark:text-gray-200 text-sm font-medium">Username atau Email</span>
+                        <span class="text-[#111418] dark:text-gray-200 text-sm font-medium">Email</span>
                         <div class="relative flex items-center">
                             <span class="absolute left-4 top-3 text-[#60758a]">
-                                <span class="material-symbols-outlined">person</span>
+                                <span class="material-symbols-outlined">mail</span>
                             </span>
-                            <input
-                                class="w-full py-3 flex rounded-lg border border-[#dbe0e6] dark:border-[#3e4c59] bg-white dark:bg-[#111923] pl-11 pr-4 text-base text-[#111418] dark:text-white placeholder:text-[#9ca3af] focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
-                                placeholder="Masukkan username Anda" type="text" />
+                            <input name="email" value="{{ old('email') }}"
+                                class="w-full py-3 flex rounded-lg border @error('email') border-red-500 @else border-[#dbe0e6] dark:border-[#3e4c59] @enderror bg-white dark:bg-[#111923] pl-11 pr-4 text-base text-[#111418] dark:text-white placeholder:text-[#9ca3af] focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
+                                placeholder="contoh@televix.com" type="email" required autofocus />
                         </div>
+                        @error('email')
+                            <span class="text-xs text-red-600 dark:text-red-400 mt-1">{{ $message }}</span>
+                        @enderror
                     </label>
+
                     <label class="flex flex-col gap-2">
                         <span class="text-[#111418] dark:text-gray-200 text-sm font-medium">Kata Sandi</span>
                         <div class="relative flex items-center">
                             <span class="absolute left-4 top-3 text-[#60758a]">
                                 <span class="material-symbols-outlined">lock</span>
                             </span>
-                            <input
-                                class="w-full p-3 rounded-lg border border-[#dbe0e6] dark:border-[#3e4c59] bg-white dark:bg-[#111923] pl-11 pr-12 text-base text-[#111418] dark:text-white placeholder:text-[#9ca3af] focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
-                                placeholder="Masukkan kata sandi" type="password" />
-                            <button
+                            <input id="password" name="password"
+                                class="w-full p-3 rounded-lg border @error('password') border-red-500 @else border-[#dbe0e6] dark:border-[#3e4c59] @enderror bg-white dark:bg-[#111923] pl-11 pr-12 text-base text-[#111418] dark:text-white placeholder:text-[#9ca3af] focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
+                                placeholder="Masukkan kata sandi" type="password" required />
+                            <button id="togglePassword"
                                 class="absolute right-0 h-full px-4 text-[#60758a] hover:text-[#111418] dark:hover:text-white transition-colors flex items-center justify-center rounded-r-lg focus:outline-none focus:text-primary"
-                                type="button">
-                                <span class="material-symbols-outlined text-[20px]">visibility</span>
+                                type="button" onclick="togglePasswordVisibility()">
+                                <span id="passwordIcon" class="material-symbols-outlined text-[20px]">visibility</span>
                             </button>
                         </div>
+                        @error('password')
+                            <span class="text-xs text-red-600 dark:text-red-400 mt-1">{{ $message }}</span>
+                        @enderror
                     </label>
+
                     <div class="flex justify-between items-center mt-1">
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input
+                            <input name="remember"
                                 class="p-2 w-4 h-4 rounded-lg border-gray-400 text-primary focus:ring-primary dark:bg-[#111923] dark:border-[#3e4c59]"
                                 type="checkbox" />
                             <span class="text-sm text-[#60758a] dark:text-[#93adc8] font-medium">Ingat Saya</span>
@@ -76,18 +127,21 @@
                         <a class="text-xs font-medium text-primary hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                             href="{{ route('reset-password') }}">Lupa Kata Sandi?</a>
                     </div>
+
                     <button
                         class="mt-2 w-full h-12 bg-primary hover:bg-blue-600 active:scale-[0.99] text-white rounded-lg font-bold text-sm tracking-wide shadow-md transition-all flex items-center justify-center gap-2 group"
-                        type="button">
+                        type="submit">
                         <span>Masuk</span>
                         <span
                             class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">login</span>
                     </button>
+
                     <div class="relative flex py-1 items-center">
                         <div class="flex-grow border-t border-[#dbe0e6] dark:border-[#3e4c59]"></div>
                         <span class="flex-shrink-0 mx-4 text-[#60758a] text-xs font-medium">Atau masuk dengan</span>
                         <div class="flex-grow border-t border-[#dbe0e6] dark:border-[#3e4c59]"></div>
                     </div>
+
                     <button
                         class="w-full h-12 bg-white dark:bg-[#111923] border border-[#dbe0e6] dark:border-[#3e4c59] hover:bg-gray-50 dark:hover:bg-[#1a2632] active:scale-[0.99] text-[#111418] dark:text-white rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-2.5 shadow-sm"
                         type="button">
@@ -118,6 +172,21 @@
             </div>
         </div>
     </main>
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const passwordIcon = document.getElementById('passwordIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.textContent = 'visibility_off';
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.textContent = 'visibility';
+            }
+        }
+    </script>
 </body>
 
 </html>

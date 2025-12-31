@@ -4,7 +4,26 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Televix | Dashboard</title>
+    <title>
+        Televix |
+        @if (request()->routeIs('dashboard'))
+            Dashboard
+        @elseif(request()->routeIs('manajemen-servis'))
+            Manajemen Servis
+        @elseif(request()->routeIs('manajemen-pelanggan'))
+            Manajemen Pelanggan
+        @elseif(request()->routeIs('ringkasan-keuangan'))
+            Ringkasan Keuangan
+        @elseif(request()->routeIs('laporan-operasional'))
+            Laporan Operasional
+        @elseif(request()->routeIs('pengaturan-umum'))
+            Pengaturan Umum
+        @elseif(request()->routeIs('manajemen-staff-rbac.index'))
+            Manajemen Staff & Akses (RBAC)
+        @else
+            Dashboard
+        @endif
+    </title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
         rel="stylesheet" />
     <link
