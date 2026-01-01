@@ -4,14 +4,17 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>
         Televix |
         @if (request()->routeIs('dashboard'))
             Dashboard
-        @elseif(request()->routeIs('manajemen-servis'))
+        @elseif(request()->routeIs('manajemen-servis.*'))
             Manajemen Servis
         @elseif(request()->routeIs('manajemen-pelanggan'))
             Manajemen Pelanggan
+        @elseif(request()->routeIs('pembayaran.*'))
+            Pembayaran
         @elseif(request()->routeIs('ringkasan-keuangan'))
             Ringkasan Keuangan
         @elseif(request()->routeIs('laporan-operasional'))

@@ -38,13 +38,13 @@
                     @endif
 
                     @if (auth()->user()->hasPermission('view_orders'))
-                        <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('manajemen-servis') ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-slate-50 dark:hover:bg-gray-800 text-slate-600 dark:text-slate-400' }} transition-colors"
-                            href="{{ route('manajemen-servis') }}">
+                        <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('manajemen-servis.*') ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-slate-50 dark:hover:bg-gray-800 text-slate-600 dark:text-slate-400' }} transition-colors"
+                            href="{{ route('manajemen-servis.index') }}">
                             <span
-                                class="material-symbols-outlined text-[20px] {{ request()->routeIs('manajemen-servis') ? '' : 'group-hover:text-slate-800 dark:group-hover:text-slate-200' }} transition-colors">home_repair_service</span>
+                                class="material-symbols-outlined text-[20px] {{ request()->routeIs('manajemen-servis.*') ? '' : 'group-hover:text-slate-800 dark:group-hover:text-slate-200' }} transition-colors">home_repair_service</span>
                             <span
-                                class="sidebar-text text-sm {{ request()->routeIs('manajemen-servis') ? 'font-semibold' : 'font-medium group-hover:text-slate-900 dark:group-hover:text-white' }} flex-1 transition-colors opacity-100">Manajemen
-                                Servis</span>
+                                class="sidebar-text text-sm {{ request()->routeIs('manajemen-servis.*') ? 'font-semibold' : 'font-medium group-hover:text-slate-900 dark:group-hover:text-white' }} flex-1 transition-colors opacity-100">Manajemen
+                                Servis
                         </a>
                     @endif
 
@@ -56,6 +56,16 @@
                             <span
                                 class="sidebar-text text-sm {{ request()->routeIs('manajemen-pelanggan') ? 'font-semibold' : 'font-medium group-hover:text-slate-900 dark:group-hover:text-white' }} flex-1 transition-colors opacity-100">Manajemen
                                 Pelanggan</span>
+                        </a>
+                    @endif
+
+                    @if (auth()->user()->hasPermission('view_payments'))
+                        <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('pembayaran.*') ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-slate-50 dark:hover:bg-gray-800 text-slate-600 dark:text-slate-400' }} transition-colors"
+                            href="{{ route('pembayaran.index') }}">
+                            <span
+                                class="material-symbols-outlined text-[20px] {{ request()->routeIs('pembayaran.*') ? '' : 'group-hover:text-slate-800 dark:group-hover:text-slate-200' }} transition-colors">payments</span>
+                            <span
+                                class="sidebar-text text-sm {{ request()->routeIs('pembayaran.*') ? 'font-semibold' : 'font-medium group-hover:text-slate-900 dark:group-hover:text-white' }} flex-1 transition-colors opacity-100">Pembayaran</span>
                         </a>
                     @endif
 

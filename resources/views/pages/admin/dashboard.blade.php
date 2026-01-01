@@ -8,9 +8,9 @@
                             Layanan</h3>
                         <div
                             class="flex bg-white dark:bg-[#111418] rounded-lg p-1 border border-slate-200 dark:border-gray-700 shadow-sm">
-                            <button
-                                class="px-3 py-1 text-xs font-medium rounded-md bg-slate-100 dark:bg-gray-700 text-slate-900 dark:text-white">Harian</button>
-                            <button
+                            <button id="btnDaily" onclick="togglePeriod('daily')"
+                                class="px-3 py-1 text-xs font-medium rounded-md bg-slate-100 dark:bg-gray-700 text-slate-900 dark:text-white transition-colors">Harian</button>
+                            <button id="btnWeekly" onclick="togglePeriod('weekly')"
                                 class="px-3 py-1 text-xs font-medium rounded-md text-slate-500 hover:bg-slate-50 dark:hover:bg-gray-800 transition-colors">Mingguan</button>
                         </div>
                     </div>
@@ -21,7 +21,10 @@
                                 <div>
                                     <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Permintaan
                                         Baru</p>
-                                    <h3 class="mt-2 text-2xl font-bold text-[#111418] dark:text-white">12</h3>
+                                    <h3 id="newOrdersValue"
+                                        class="mt-2 text-2xl font-bold text-[#111418] dark:text-white"
+                                        data-daily="{{ $newOrders }}" data-weekly="{{ $newOrdersWeek }}">
+                                        {{ $newOrders }}</h3>
                                 </div>
                                 <div
                                     class="flex items-center justify-center size-10 bg-primary/10 text-primary rounded-lg dark:bg-primary/20">
@@ -29,12 +32,14 @@
                                 </div>
                             </div>
                             <div class="mt-4 flex items-center gap-2">
-                                <span
-                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400">
-                                    <span class="material-symbols-outlined text-[14px]">trending_up</span>
-                                    20%
+                                <span id="newOrdersChange" data-daily="{{ $newOrdersChange }}"
+                                    data-weekly="{{ $newOrdersWeekChange }}"
+                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium {{ $newOrdersChange >= 0 ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400' }}">
+                                    <span id="newOrdersIcon"
+                                        class="material-symbols-outlined text-[14px]">{{ $newOrdersChange >= 0 ? 'trending_up' : 'trending_down' }}</span>
+                                    <span id="newOrdersPercent">{{ abs($newOrdersChange) }}%</span>
                                 </span>
-                                <span class="text-xs text-slate-400">vs kemarin</span>
+                                <span id="newOrdersLabel" class="text-xs text-slate-400">vs kemarin</span>
                             </div>
                         </div>
                         <div
@@ -43,7 +48,8 @@
                                 <div>
                                     <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Sedang
                                         Berlangsung</p>
-                                    <h3 class="mt-2 text-2xl font-bold text-[#111418] dark:text-white">8</h3>
+                                    <h3 class="mt-2 text-2xl font-bold text-[#111418] dark:text-white">
+                                        {{ $ongoingOrders }}</h3>
                                 </div>
                                 <div
                                     class="flex items-center justify-center size-10 bg-orange-50 text-orange-600 rounded-lg dark:bg-orange-900/20 dark:text-orange-400">
@@ -63,9 +69,13 @@
                             class="flex flex-col justify-between p-5 bg-white dark:bg-[#111418] rounded-xl border border-slate-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-all duration-200">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Selesai Hari
+                                    <p id="completedLabel"
+                                        class="text-sm font-medium text-slate-500 dark:text-slate-400">Selesai Hari
                                         Ini</p>
-                                    <h3 class="mt-2 text-2xl font-bold text-[#111418] dark:text-white">4</h3>
+                                    <h3 id="completedValue"
+                                        class="mt-2 text-2xl font-bold text-[#111418] dark:text-white"
+                                        data-daily="{{ $completedToday }}" data-weekly="{{ $completedWeek }}">
+                                        {{ $completedToday }}</h3>
                                 </div>
                                 <div
                                     class="flex items-center justify-center size-10 bg-green-50 text-green-600 rounded-lg dark:bg-green-900/20 dark:text-green-400">
@@ -73,12 +83,14 @@
                                 </div>
                             </div>
                             <div class="mt-4 flex items-center gap-2">
-                                <span
-                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400">
-                                    <span class="material-symbols-outlined text-[14px]">trending_up</span>
-                                    5%
+                                <span id="completedChange" data-daily="{{ $completedChange }}"
+                                    data-weekly="{{ $completedWeekChange }}"
+                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium {{ $completedChange >= 0 ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400' }}">
+                                    <span id="completedIcon"
+                                        class="material-symbols-outlined text-[14px]">{{ $completedChange >= 0 ? 'trending_up' : 'trending_down' }}</span>
+                                    <span id="completedPercent">{{ abs($completedChange) }}%</span>
                                 </span>
-                                <span class="text-xs text-slate-400">Siap diambil</span>
+                                <span id="completedChangeLabel" class="text-xs text-slate-400">Siap diambil</span>
                             </div>
                         </div>
                         @if (auth()->user()->hasPermission('view_payments'))
@@ -88,7 +100,10 @@
                                     <div>
                                         <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Pendapatan
                                             Bersih</p>
-                                        <h3 class="mt-2 text-2xl font-bold text-[#111418] dark:text-white">Rp 2.5jt
+                                        <h3 id="revenueValue"
+                                            class="mt-2 text-2xl font-bold text-[#111418] dark:text-white"
+                                            data-daily="{{ $todayRevenue }}" data-weekly="{{ $revenueWeek }}">Rp
+                                            {{ number_format($todayRevenue / 1000, 1) }}k
                                         </h3>
                                     </div>
                                     <div
@@ -97,12 +112,14 @@
                                     </div>
                                 </div>
                                 <div class="mt-4 flex items-center gap-2">
-                                    <span
-                                        class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400">
-                                        <span class="material-symbols-outlined text-[14px]">trending_up</span>
-                                        12%
+                                    <span id="revenueChange" data-daily="{{ $revenueChange }}"
+                                        data-weekly="{{ $revenueWeekChange }}"
+                                        class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium {{ $revenueChange >= 0 ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400' }}">
+                                        <span id="revenueIcon"
+                                            class="material-symbols-outlined text-[14px]">{{ $revenueChange >= 0 ? 'trending_up' : 'trending_down' }}</span>
+                                        <span id="revenuePercent">{{ abs($revenueChange) }}%</span>
                                     </span>
-                                    <span class="text-xs text-slate-400">Estimasi hari ini</span>
+                                    <span id="revenueLabel" class="text-xs text-slate-400">Estimasi hari ini</span>
                                 </div>
                             </div>
                         @endif
@@ -115,7 +132,8 @@
                     <div class="flex items-center justify-between">
                         <h3 class="text-[#111418] dark:text-white text-xl font-bold leading-tight">Antrean Aktif
                         </h3>
-                        <button class="text-sm text-primary font-medium hover:underline">Lihat Semua</button>
+                        <a href="{{ route('manajemen-servis.index') }}"
+                            class="text-sm text-primary font-medium hover:underline">Lihat Semua</a>
                     </div>
                     <div
                         class="bg-white dark:bg-[#111418] rounded-xl border border-slate-200 dark:border-gray-800 shadow-sm overflow-hidden">
@@ -125,166 +143,105 @@
                                     <tr
                                         class="bg-slate-50 dark:bg-gray-800/50 border-b border-slate-200 dark:border-gray-700">
                                         <th
-                                            class="py-3 px-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                            class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider whitespace-nowrap">
                                             Order ID</th>
                                         <th
-                                            class="py-3 px-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                                            Pelanggan &amp; Unit</th>
+                                            class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                                            Pelanggan</th>
                                         <th
-                                            class="py-3 px-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                                            Status</th>
+                                            class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                                            Unit & Keluhan</th>
                                         <th
-                                            class="py-3 px-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                            class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider whitespace-nowrap">
                                             Teknisi</th>
                                         <th
-                                            class="py-3 px-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">
+                                            class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                                            Status</th>
+                                        <th
+                                            class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider whitespace-nowrap">
                                             Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-slate-100 dark:divide-gray-800">
-                                    <tr class="group hover:bg-slate-50 dark:hover:bg-gray-800/50 transition-colors">
-                                        <td class="py-3 px-4 text-sm font-medium text-slate-900 dark:text-white">
-                                            <a class="text-primary hover:underline hover:text-blue-700 dark:hover:text-blue-400"
-                                                href="#">#TV-2301</a>
-                                        </td>
-                                        <td class="py-3 px-4">
-                                            <div class="flex flex-col">
-                                                <span class="text-sm font-medium text-slate-900 dark:text-white">Ahmad
-                                                    Fauzi</span>
-                                                <span class="text-xs text-slate-500">Samsung 43" Smart TV</span>
-                                            </div>
-                                        </td>
-                                        <td class="py-3 px-4">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
-                                                Diagnosa
-                                            </span>
-                                        </td>
-                                        <td class="py-3 px-4">
-                                            <div class="flex items-center gap-2">
-                                                <div class="size-6 rounded-full bg-slate-200 bg-cover bg-center"
-                                                    data-alt="Technician avatar"
-                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB6JBRylBPrnlyHw9hofcrml5MxciPFHktX7O3hs_VpnP1vDmSV0P4cYEOkdOucr7fuDXVPFBl-xAm9IANqCN5VnHy6tKuMQyXt_jQ0F7ZWjLKtvp3nEevIc53qUdy9wpDx0jSU2MxOj40cmTBY9BMtU6reCs91sC9wwvUn9gtEYsSYIvLMlxG3Sc_IqgOl6Ha_cN8lu-i2ACRKyZMl-Y1PHGmjHhAQSCT_LmKTayPs4RAxibyekgsXG68rKsxqmFs9l84Vm5R4D6Cm");'>
+                                    @forelse($activeQueue as $order)
+                                        <tr class="group hover:bg-slate-50 dark:hover:bg-gray-800/50 transition-colors">
+                                            <td class="py-4 px-6 whitespace-nowrap">
+                                                <a class="text-primary font-semibold hover:underline hover:text-blue-700 dark:hover:text-blue-400"
+                                                    href="{{ route('manajemen-servis.show', $order) }}">#{{ $order->order_number }}</a>
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                <div class="flex flex-col">
+                                                    <span
+                                                        class="text-sm font-medium text-slate-900 dark:text-white">{{ $order->customer_name }}</span>
+                                                    <span
+                                                        class="text-xs text-slate-500">{{ $order->customer_phone }}</span>
                                                 </div>
-                                                <span class="text-sm text-slate-600 dark:text-slate-300">Rudi</span>
-                                            </div>
-                                        </td>
-                                        <td class="py-3 px-4 text-right">
-                                            <button class="text-slate-400 hover:text-primary transition-colors">
-                                                <span class="material-symbols-outlined text-[20px]">edit_square</span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="group hover:bg-slate-50 dark:hover:bg-gray-800/50 transition-colors">
-                                        <td class="py-3 px-4 text-sm font-medium text-slate-900 dark:text-white">
-                                            <a class="text-primary hover:underline hover:text-blue-700 dark:hover:text-blue-400"
-                                                href="#">#TV-2305</a>
-                                        </td>
-                                        <td class="py-3 px-4">
-                                            <div class="flex flex-col">
-                                                <span class="text-sm font-medium text-slate-900 dark:text-white">Siti
-                                                    Aminah</span>
-                                                <span class="text-xs text-slate-500">LG LED 32"</span>
-                                            </div>
-                                        </td>
-                                        <td class="py-3 px-4">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300">
-                                                Menunggu Part
-                                            </span>
-                                        </td>
-                                        <td class="py-3 px-4">
-                                            <div class="flex items-center gap-2">
-                                                <div class="size-6 rounded-full bg-slate-200 bg-cover bg-center"
-                                                    data-alt="Technician avatar"
-                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDuwm1dJZPnDMH6gPJ34AIpDreIzrc8CrNXcRwDvlsHpRXoS4JLa0rHH5XrMNEkIT-ih8PZCTYCpzic57ZrncouOGcuSpgHGi1Mi6TTktKrDTswWAZ3b6sih9f4fZEn193-riGHH7PTealoj29qQBiBJkUq9ipNH_ohVEWp-tyJ2NTRn7isTFcLRDnCl0lcDE3WR-i5l0j7mxR6iBVPyk_Kq0JwRXpalZS7Fb6lwW3w7bbLWgigK1Qbq2me5jGlrMZsIKsAzMAXr1Rv");'>
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                <div class="flex flex-col">
+                                                    <span
+                                                        class="text-sm font-medium text-slate-900 dark:text-white">{{ $order->device_brand }}
+                                                        {{ $order->device_type }}</span>
+                                                    <span class="text-xs text-slate-500 truncate max-w-[200px]"
+                                                        title="{{ $order->problem_description }}">
+                                                        {{ $order->problem_description }}
+                                                    </span>
                                                 </div>
-                                                <span class="text-sm text-slate-600 dark:text-slate-300">Budi</span>
-                                            </div>
-                                        </td>
-                                        <td class="py-3 px-4 text-right">
-                                            <button class="text-slate-400 hover:text-primary transition-colors">
-                                                <span class="material-symbols-outlined text-[20px]">edit_square</span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="group hover:bg-slate-50 dark:hover:bg-gray-800/50 transition-colors">
-                                        <td class="py-3 px-4 text-sm font-medium text-slate-900 dark:text-white">
-                                            <a class="text-primary hover:underline hover:text-blue-700 dark:hover:text-blue-400"
-                                                href="#">#TV-2298</a>
-                                        </td>
-                                        <td class="py-3 px-4">
-                                            <div class="flex flex-col">
-                                                <span class="text-sm font-medium text-slate-900 dark:text-white">Hotel
-                                                    Merdeka</span>
-                                                <span class="text-xs text-slate-500">Sharp Aquos 50" (x3)</span>
-                                            </div>
-                                        </td>
-                                        <td class="py-3 px-4">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300">
-                                                Pengerjaan
-                                            </span>
-                                        </td>
-                                        <td class="py-3 px-4">
-                                            <div class="flex items-center gap-2">
-                                                <div class="size-6 rounded-full bg-slate-200 bg-cover bg-center"
-                                                    data-alt="Technician avatar"
-                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDSF2v4_w2HUJGbr-zY_nPa6diHjhnju1Px-hCx8iwTpvpAhNtDl7W3NLyyQWpdtSxJ_MTvEBQ1MSLGB6oU6cyVZURaWT0jHTOwBya98cm494_trQ-94sBtyWmPX9D33TBX2JKJ3t9pjA-jwLByDMZrt_SnaOup7ftqPYlP-ptezO12y2xqqvZSsxCadnjdPtEcAZO3fFkzrw8tytMaQtyCXolEwaYGKiDFA_ZSdfuTfYAj9YE7-Ccq-M_6pdmmfc4mesdmQYhvUH6G");'>
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                @if ($order->technician)
+                                                    <div class="flex items-center gap-2">
+                                                        <div
+                                                            class="p-2 rounded-full bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-semibold text-[10px] shadow-sm">
+                                                            {{ strtoupper(substr($order->technician->name, 0, 2)) }}
+                                                        </div>
+                                                        <span
+                                                            class="text-sm text-slate-600 dark:text-slate-300">{{ $order->technician->name }}</span>
+                                                    </div>
+                                                @else
+                                                    <span class="text-sm text-slate-400 italic">- Belum ditentukan
+                                                        -</span>
+                                                @endif
+                                            </td>
+                                            <td class="py-4 px-6 whitespace-nowrap">
+                                                <span
+                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $order->status_badge_class }}">
+                                                    {{ $order->status_label }}
+                                                </span>
+                                            </td>
+                                            <td class="py-4 px-6 whitespace-nowrap">
+                                                <a href="{{ route('manajemen-servis.show', $order) }}"
+                                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-primary bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/40 border border-blue-200 dark:border-blue-800 transition-all hover:shadow-sm"
+                                                    title="Lihat Detail Order">
+                                                    <span
+                                                        class="material-symbols-outlined text-[16px]">visibility</span>
+                                                    <span>Detail</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="py-8 text-center text-slate-400">
+                                                <div class="flex flex-col items-center gap-2">
+                                                    <span class="material-symbols-outlined text-[48px]">inbox</span>
+                                                    <p class="text-sm">Tidak ada order aktif saat ini</p>
                                                 </div>
-                                                <span class="text-sm text-slate-600 dark:text-slate-300">Dedi</span>
-                                            </div>
-                                        </td>
-                                        <td class="py-3 px-4 text-right">
-                                            <button class="text-slate-400 hover:text-primary transition-colors">
-                                                <span class="material-symbols-outlined text-[20px]">edit_square</span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="group hover:bg-slate-50 dark:hover:bg-gray-800/50 transition-colors">
-                                        <td class="py-3 px-4 text-sm font-medium text-slate-900 dark:text-white">
-                                            <a class="text-primary hover:underline hover:text-blue-700 dark:hover:text-blue-400"
-                                                href="#">#TV-2310</a>
-                                        </td>
-                                        <td class="py-3 px-4">
-                                            <div class="flex flex-col">
-                                                <span class="text-sm font-medium text-slate-900 dark:text-white">Dani
-                                                    Rosyid</span>
-                                                <span class="text-xs text-slate-500">Panasonic Viera 40"</span>
-                                            </div>
-                                        </td>
-                                        <td class="py-3 px-4">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300">
-                                                Selesai
-                                            </span>
-                                        </td>
-                                        <td class="py-3 px-4">
-                                            <div class="flex items-center gap-2">
-                                                <div class="size-6 rounded-full bg-slate-200 bg-cover bg-center"
-                                                    data-alt="Technician avatar"
-                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhDMnk8QON9LLi1VGMKVRHFXAqSv31I9yyxbjEB7gUsfh7OUyv5qiLDEstfXehmlx16ke8AHEUwLL4H-qysEC0nVje43ElsChHW-eRwsezebUvN3FkB4LE5Y9eIcUJB0De0ywRMrdFe-bwGYNEnd5Y3O5dfr0gKK2REddIrbBmUAs-kKUrviBENe7huAizJRvdWCcylHtsXS1q8bd8Kza3agGo7bhXoprS6MnxBzILr_GPussDCQhIdxgpga0dzBH13t1dHd1iipUn");'>
-                                                </div>
-                                                <span class="text-sm text-slate-600 dark:text-slate-300">Rudi</span>
-                                            </div>
-                                        </td>
-                                        <td class="py-3 px-4 text-right">
-                                            <button class="text-slate-400 hover:text-primary transition-colors">
-                                                <span class="material-symbols-outlined text-[20px]">visibility</span>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
-                        <div
-                            class="p-4 border-t border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-800/30 flex justify-center">
-                            <button
-                                class="text-sm text-slate-500 hover:text-primary font-medium flex items-center gap-1 transition-colors">
-                                Lihat 5 order lainnya
-                                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                            </button>
-                        </div>
+                        @if ($activeQueue->count() > 0)
+                            <div
+                                class="p-4 border-t border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-800/30 flex justify-center">
+                                <a href="{{ route('manajemen-servis.index') }}"
+                                    class="text-sm text-slate-500 hover:text-primary font-medium flex items-center gap-1 transition-colors">
+                                    Lihat semua order
+                                    <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                                </a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             @endif
@@ -301,60 +258,32 @@
                         <div class="flex gap-4 items-end h-48 pb-2">
                             <div
                                 class="flex flex-col justify-between h-[85%] text-[10px] text-slate-400 font-medium text-right w-10 shrink-0 mb-6">
-                                <span>3.0jt</span>
-                                <span>2.0jt</span>
-                                <span>1.0jt</span>
+                                <span>{{ $maxRevenue > 0 ? number_format($maxRevenue / 1000, 1) : '3.0' }}k</span>
+                                <span>{{ $maxRevenue > 0 ? number_format(($maxRevenue * 0.66) / 1000, 1) : '2.0' }}k</span>
+                                <span>{{ $maxRevenue > 0 ? number_format(($maxRevenue * 0.33) / 1000, 1) : '1.0' }}k</span>
                                 <span>0</span>
                             </div>
                             <div class="flex-1 flex flex-col h-full justify-end">
                                 <div
                                     class="flex-1 flex items-end justify-between gap-2 px-2 border-l border-b border-slate-200 dark:border-gray-700">
-                                    <div
-                                        class="w-full bg-blue-100 dark:bg-blue-900/20 rounded-t-sm relative group h-[40%]">
-                                        <div
-                                            class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 whitespace-nowrap">
-                                            Rp 1.2jt</div>
-                                    </div>
-                                    <div
-                                        class="w-full bg-blue-100 dark:bg-blue-900/20 rounded-t-sm relative group h-[60%]">
-                                        <div
-                                            class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 whitespace-nowrap">
-                                            Rp 1.8jt</div>
-                                    </div>
-                                    <div
-                                        class="w-full bg-blue-100 dark:bg-blue-900/20 rounded-t-sm relative group h-[30%]">
-                                        <div
-                                            class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 whitespace-nowrap">
-                                            Rp 900rb</div>
-                                    </div>
-                                    <div
-                                        class="w-full bg-primary rounded-t-sm relative group h-[80%] shadow-lg shadow-blue-500/30">
-                                        <div
-                                            class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 whitespace-nowrap">
-                                            Rp 2.4jt</div>
-                                    </div>
-                                    <div
-                                        class="w-full bg-blue-100 dark:bg-blue-900/20 rounded-t-sm relative group h-[55%]">
-                                        <div
-                                            class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 whitespace-nowrap">
-                                            Rp 1.65jt</div>
-                                    </div>
-                                    <div
-                                        class="w-full bg-blue-100 dark:bg-blue-900/20 rounded-t-sm relative group h-[45%]">
-                                        <div
-                                            class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 whitespace-nowrap">
-                                            Rp 1.35jt</div>
-                                    </div>
-                                    <div
-                                        class="w-full bg-blue-100 dark:bg-blue-900/20 rounded-t-sm relative group h-[20%]">
-                                        <div
-                                            class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 whitespace-nowrap">
-                                            Rp 600rb</div>
-                                    </div>
+                                    @foreach ($weeklyRevenue as $day)
+                                        @php
+                                            $heightPercent =
+                                                $maxRevenue > 0 ? ($day['revenue'] / $maxRevenue) * 100 : 0;
+                                        @endphp
+                                        <div class="w-full {{ $day['is_today'] ? 'bg-primary shadow-lg shadow-blue-500/30' : 'bg-blue-100 dark:bg-blue-900/20' }} rounded-t-sm relative group"
+                                            style="height: {{ max(20, $heightPercent) }}%">
+                                            <div
+                                                class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 whitespace-nowrap">
+                                                Rp {{ number_format($day['revenue'] / 1000, 0) }}k</div>
+                                        </div>
+                                    @endforeach
                                 </div>
                                 <div class="flex justify-between mt-2 text-xs text-slate-400 px-2">
-                                    <span>Sen</span><span>Sel</span><span>Rab</span><span
-                                        class="text-primary font-bold">Kam</span><span>Jum</span><span>Sab</span><span>Min</span>
+                                    @foreach ($weeklyRevenue as $day)
+                                        <span
+                                            class="{{ $day['is_today'] ? 'text-primary font-bold' : '' }}">{{ $day['day'] }}</span>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -369,67 +298,111 @@
                             <a class="text-xs text-primary font-medium hover:underline" href="#">Kelola</a>
                         </div>
                         <div class="flex flex-col gap-4">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="relative">
-                                        <div class="size-10 rounded-full bg-cover bg-center"
-                                            data-alt="Technician Dedi portrait"
-                                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB9rcDzZFc8Z-zV4-Ne55ljoumi9U408unTGkGl-XsoEhTBHFOwtqcRgtuORZNCXw95gR2FZqogcpa2FDSr4fnyGbaWLtQ1p2iwdVHvzVs8x5e70xJDZUl6KF2LPpOmSbiWj9xQJaqW2TeFDu7wgAOWYu2cR5Er98H9n1CgnT9pl0zedhokbRJ3q-CtyvlIyBeu5lIaQUlkzicHZC01-FKPVyn4cqfXfs6MelHaI6zhMey-6vls0Vl3lQIiiE033yVTWbvFa8R9Igzw");'>
+                            @forelse($technicians as $tech)
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="relative">
+                                            <div
+                                                class="size-10 rounded-full bg-slate-200 flex items-center justify-center text-sm font-semibold text-slate-600">
+                                                {{ substr($tech['name'], 0, 1) }}
+                                            </div>
+                                            <div
+                                                class="absolute bottom-0 right-0 size-2.5 {{ $tech['status_color'] === 'green' ? 'bg-green-500' : 'bg-slate-300' }} rounded-full border-2 border-white dark:border-[#111418]">
+                                            </div>
                                         </div>
-                                        <div
-                                            class="absolute bottom-0 right-0 size-2.5 bg-green-500 rounded-full border-2 border-white dark:border-[#111418]">
+                                        <div>
+                                            <p class="text-sm font-semibold text-slate-900 dark:text-white">
+                                                {{ $tech['name'] }}</p>
+                                            <p class="text-xs text-slate-500">{{ $tech['active_orders'] }} order aktif
+                                            </p>
                                         </div>
                                     </div>
-                                    <div>
-                                        <p class="text-sm font-semibold text-slate-900 dark:text-white">Dedi</p>
-                                        <p class="text-xs text-slate-500">Spesialis LED/LCD</p>
-                                    </div>
+                                    <span
+                                        class="text-xs font-medium {{ $tech['status_color'] === 'green' ? 'text-green-600 bg-green-50 dark:bg-green-900/20' : 'text-slate-500 bg-slate-100 dark:bg-slate-800' }} px-2 py-1 rounded">{{ $tech['status'] }}</span>
                                 </div>
-                                <span
-                                    class="text-xs font-medium text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded">Aktif</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="relative">
-                                        <div class="size-10 rounded-full bg-cover bg-center"
-                                            data-alt="Technician Rudi portrait"
-                                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDynI0sf0RA44o9sWJYQJ38BdicBQ2NMxUrX4GiejxTV-Ue42WR7PAoS1jP5KE4dCZMMtxrq-z-SHMuU5KL9RCxvHLz3yt4vFPyiNLxSsvlL986vPIpoeJJPX2YZqkFMvoOJ6mWWnq4Y7Thlc4PbzyogSKegrg9fdWRUeM_BrTaiiCuEcLfs4WS3YaYZfPBxf2Od6Ks5vnajlFU1P1z9w3myyNPjjKOsBIEVp6FVoPgJywqqGpbbtTWBtZH3IB8Tu7-s5qYtiVb6bWv");'>
-                                        </div>
-                                        <div
-                                            class="absolute bottom-0 right-0 size-2.5 bg-yellow-500 rounded-full border-2 border-white dark:border-[#111418]">
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-semibold text-slate-900 dark:text-white">Rudi</p>
-                                        <p class="text-xs text-slate-500">Spesialis Audio/Home Theater</p>
-                                    </div>
+                            @empty
+                                <div class="text-center py-8 text-slate-400">
+                                    <span class="material-symbols-outlined text-[48px]">person_off</span>
+                                    <p class="text-sm mt-2">Tidak ada teknisi</p>
                                 </div>
-                                <span
-                                    class="text-xs font-medium text-yellow-600 bg-yellow-50 dark:bg-yellow-900/20 px-2 py-1 rounded">Istirahat</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="relative">
-                                        <div class="size-10 rounded-full bg-cover bg-center bg-slate-200"
-                                            data-alt="Technician Anton portrait"
-                                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAFxPQRZ_AHc_w4Vh2A0nExCzWwxIp6RviEtvZcXwaJlemZ_E_3cksl8WI3Dl0FPLmoMl2oBbrTVGlzpy-un6trXC7wYa9wMWcyaYzYYOlkCke28bnJp_4tPTwFZ9jTjmKkBi55mBXuYbYSy3Y6Ga23vgZvYxGqfXhcV1lpHk-lGLEVoSrIJGw_a_4-YSwBYXmFMS34PcvahPP3IjbRaCaBdmISgneQ1Jv_rC_98feE4yF91E_vltFHmu4hYjjLrpXA3rcER1yFdaKG");'>
-                                        </div>
-                                        <div
-                                            class="absolute bottom-0 right-0 size-2.5 bg-slate-300 rounded-full border-2 border-white dark:border-[#111418]">
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-semibold text-slate-900 dark:text-white">Anton</p>
-                                        <p class="text-xs text-slate-500">Junior Tech</p>
-                                    </div>
-                                </div>
-                                <span
-                                    class="text-xs font-medium text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">Offline</span>
-                            </div>
+                            @endforelse
                         </div>
                     </div>
                 @endif
             </div>
         </div>
     </div>
+
+    <script>
+        function togglePeriod(period) {
+            const btnDaily = document.getElementById('btnDaily');
+            const btnWeekly = document.getElementById('btnWeekly');
+
+            // Toggle button styles
+            if (period === 'daily') {
+                btnDaily.classList.add('bg-slate-100', 'dark:bg-gray-700', 'text-slate-900', 'dark:text-white');
+                btnDaily.classList.remove('text-slate-500');
+                btnWeekly.classList.remove('bg-slate-100', 'dark:bg-gray-700', 'text-slate-900', 'dark:text-white');
+                btnWeekly.classList.add('text-slate-500');
+            } else {
+                btnWeekly.classList.add('bg-slate-100', 'dark:bg-gray-700', 'text-slate-900', 'dark:text-white');
+                btnWeekly.classList.remove('text-slate-500');
+                btnDaily.classList.remove('bg-slate-100', 'dark:bg-gray-700', 'text-slate-900', 'dark:text-white');
+                btnDaily.classList.add('text-slate-500');
+            }
+
+            // Update values
+            updateCard('newOrders', period);
+            updateCard('completed', period);
+            updateCard('revenue', period);
+
+            // Update labels
+            const completedLabel = document.getElementById('completedLabel');
+            const newOrdersLabel = document.getElementById('newOrdersLabel');
+            const revenueLabel = document.getElementById('revenueLabel');
+
+            if (period === 'daily') {
+                completedLabel.textContent = 'Selesai Hari Ini';
+                newOrdersLabel.textContent = 'vs kemarin';
+                revenueLabel.textContent = 'Estimasi hari ini';
+            } else {
+                completedLabel.textContent = 'Selesai Minggu Ini';
+                newOrdersLabel.textContent = 'vs minggu lalu';
+                revenueLabel.textContent = 'Estimasi minggu ini';
+            }
+        }
+
+        function updateCard(cardId, period) {
+            const valueEl = document.getElementById(cardId + 'Value');
+            const changeEl = document.getElementById(cardId + 'Change');
+            const iconEl = document.getElementById(cardId + 'Icon');
+            const percentEl = document.getElementById(cardId + 'Percent');
+
+            if (!valueEl || !changeEl) return;
+
+            const value = parseInt(valueEl.dataset[period]);
+            const change = parseInt(changeEl.dataset[period]);
+
+            // Update value
+            if (cardId === 'revenue') {
+                valueEl.innerHTML = 'Rp ' + (value / 1000).toFixed(1) + 'k';
+            } else {
+                valueEl.textContent = value;
+            }
+
+            // Update change percentage
+            percentEl.textContent = Math.abs(change) + '%';
+
+            // Update icon and color
+            if (change >= 0) {
+                iconEl.textContent = 'trending_up';
+                changeEl.classList.remove('bg-red-50', 'text-red-700', 'dark:bg-red-900/30', 'dark:text-red-400');
+                changeEl.classList.add('bg-green-50', 'text-green-700', 'dark:bg-green-900/30', 'dark:text-green-400');
+            } else {
+                iconEl.textContent = 'trending_down';
+                changeEl.classList.remove('bg-green-50', 'text-green-700', 'dark:bg-green-900/30', 'dark:text-green-400');
+                changeEl.classList.add('bg-red-50', 'text-red-700', 'dark:bg-red-900/30', 'dark:text-red-400');
+            }
+        }
+    </script>
 </x-layouts.admin.app>

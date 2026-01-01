@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,7 +20,10 @@ class UserManagementController extends Controller
     public function index()
     {
         $users = User::with('roles')->latest()->paginate(10);
-        $roles = Role::all();
+        $roles = Role::with('permissions')->get();
+
+        // Get permissions grouped by module
+        $permissions = Permission::all()->groupBy('module');
 
         // Get statistics
         $totalUsers = User::count();
@@ -28,7 +32,7 @@ class UserManagementController extends Controller
             $q->where('name', 'super_admin');
         })->count();
 
-        return view('pages.admin.manajemen-staff-rbac', compact('users', 'roles', 'totalUsers', 'activeUsers', 'superAdmins'));
+        return view('pages.admin.manajemen-staff-rbac', compact('users', 'roles', 'permissions', 'totalUsers', 'activeUsers', 'superAdmins'));
     }
 
     /**
@@ -153,5 +157,51 @@ class UserManagementController extends Controller
 
         return redirect()->route('manajemen-staff-rbac.index')
             ->with('success', "Status user {$user->name} berhasil diubah!");
+    }
+
+    /**
+     * Update permissions for roles
+     */
+    public function updatePermissions(Request $request)
+    {
+        $validated = $request->validate([
+            'changes' => 'required|array',
+            'changes.*.roleId' => 'required|exists:roles,id',
+            'changes.*.permissionId' => 'required|exists:permissions,id',
+            'changes.*.action' => 'required|in:attach,detach',
+        ]);
+
+        try {
+            foreach ($validated['changes'] as $change) {
+                $role = Role::findOrFail($change['roleId']);
+                $permissionId = $change['permissionId'];
+
+                if ($change['action'] === 'attach') {
+                    // Attach permission if not already attached
+                    if (!$role->permissions()->where('permission_id', $permissionId)->exists()) {
+                        $role->permissions()->attach($permissionId);
+                    }
+                } else {
+                    // Detach permission
+                    $role->permissions()->detach($permissionId);
+                }
+            }
+
+            // Log activity
+            ActivityLog::log('permissions_updated', null, [
+                'updated_by' => Auth::user()->name,
+                'changes_count' => count($validated['changes'])
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Permissions berhasil diupdate!'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengupdate permissions: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

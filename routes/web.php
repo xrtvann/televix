@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\ServiceOrderController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -45,17 +48,30 @@ Route::get('/logout', function () {
 
 // Protected Admin Routes
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('pages.admin.dashboard');
-    })->name('dashboard')->middleware('permission:view_dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard')
+        ->middleware('permission:view_dashboard');
 
-    Route::get('/manajemen-servis', function () {
-        return view('pages.admin.manajemen-servis');
-    })->name('manajemen-servis')->middleware('permission:view_orders');
+    // Service Order Routes
+    Route::middleware('permission:view_orders')->group(function () {
+        Route::get('/manajemen-servis', [ServiceOrderController::class, 'index'])->name('manajemen-servis.index');
+        Route::post('/manajemen-servis', [ServiceOrderController::class, 'store'])->name('manajemen-servis.store');
+        Route::get('/manajemen-servis/{order}', [ServiceOrderController::class, 'show'])->name('manajemen-servis.show');
+        Route::put('/manajemen-servis/{order}', [ServiceOrderController::class, 'update'])->name('manajemen-servis.update');
+        Route::delete('/manajemen-servis/{order}', [ServiceOrderController::class, 'destroy'])->name('manajemen-servis.destroy');
+        Route::patch('/manajemen-servis/{order}/assign-technician', [ServiceOrderController::class, 'assignTechnician'])->name('manajemen-servis.assign-technician');
+        Route::patch('/manajemen-servis/{order}/update-status', [ServiceOrderController::class, 'updateStatus'])->name('manajemen-servis.update-status');
+    });
 
     Route::get('/manajemen-pelanggan', function () {
         return view('pages.admin.manajemen-pelanggan');
     })->name('manajemen-pelanggan')->middleware('permission:view_customers');
+
+    // Payment Routes
+    Route::middleware('permission:view_payments')->group(function () {
+        Route::get('/pembayaran', [PaymentController::class, 'index'])->name('pembayaran.index');
+        Route::post('/pembayaran/{order}/pay', [PaymentController::class, 'pay'])->name('pembayaran.pay');
+    });
 
     Route::get('/ringkasan-keuangan', function () {
         return view('pages.admin.ringkasan-keuangan');
@@ -76,5 +92,8 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/manajemen-staff-rbac/{user}', [UserManagementController::class, 'update'])->name('manajemen-staff-rbac.update');
         Route::delete('/manajemen-staff-rbac/{user}', [UserManagementController::class, 'destroy'])->name('manajemen-staff-rbac.destroy');
         Route::patch('/manajemen-staff-rbac/{user}/toggle-status', [UserManagementController::class, 'toggleStatus'])->name('manajemen-staff-rbac.toggle-status');
+
+        // Permission Management
+        Route::post('/api/permissions/update', [UserManagementController::class, 'updatePermissions'])->name('permissions.update');
     });
 });

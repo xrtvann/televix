@@ -9,12 +9,15 @@
     $pageTitle = 'Dashboard Overview';
     $pageSubtitle = 'Selamat datang kembali, ' . explode(' ', $userName)[0] . '.';
 
-    if (request()->routeIs('manajemen-servis')) {
+    if (request()->routeIs('manajemen-servis.*')) {
         $pageTitle = 'Manajemen Servis';
         $pageSubtitle = 'Kelola semua data perbaikan TV di sini.';
     } elseif (request()->routeIs('manajemen-pelanggan')) {
         $pageTitle = 'Manajemen Pelanggan';
         $pageSubtitle = 'Kelola data pelanggan dan riwayat servis di sini.';
+    } elseif (request()->routeIs('pembayaran.*')) {
+        $pageTitle = 'Pembayaran';
+        $pageSubtitle = 'Kelola pembayaran untuk order yang sudah selesai.';
     } elseif (request()->routeIs('ringkasan-keuangan')) {
         $pageTitle = 'Ringkasan Keuangan';
         $pageSubtitle = 'Analisa Keuangan anda di sini.';

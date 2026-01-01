@@ -187,31 +187,34 @@
                                             {{ $user->last_login_at ? $user->last_login_at->diffForHumans() : 'Belum pernah' }}
                                         </span>
                                     </td>
-                                    <td class="py-4 px-5">
+                                    <td class="py-4 px-5 whitespace-nowrap">
                                         <div class="flex items-center justify-end gap-2">
                                             <button
                                                 onclick="openEditModal({{ $user->id }}, '{{ $user->name }}', '{{ $user->email }}', '{{ $user->phone }}', {{ $user->roles->first()->id ?? 'null' }}, {{ $user->is_active ? 'true' : 'false' }})"
-                                                class="p-2 rounded-lg text-slate-400 hover:text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
-                                                title="Edit">
-                                                <span class="material-symbols-outlined text-[20px]">edit</span>
+                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-primary bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/40 border border-blue-200 dark:border-blue-800 transition-all hover:shadow-sm"
+                                                title="Edit Staff">
+                                                <span class="material-symbols-outlined text-[16px]">edit</span>
+                                                <span>Edit</span>
                                             </button>
                                             <form action="{{ route('manajemen-staff-rbac.toggle-status', $user) }}"
                                                 method="POST" class="inline">
                                                 @csrf
                                                 @method('PATCH')
                                                 <button type="submit"
-                                                    class="p-2 rounded-lg text-slate-400 hover:text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-colors"
-                                                    title="Toggle Status">
+                                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium {{ $user->is_active ? 'text-orange-700 bg-orange-50 hover:bg-orange-100 dark:bg-orange-900/20 dark:hover:bg-orange-900/40 border border-orange-200 dark:border-orange-800' : 'text-green-700 bg-green-50 hover:bg-green-100 dark:bg-green-900/20 dark:hover:bg-green-900/40 border border-green-200 dark:border-green-800' }} transition-all hover:shadow-sm"
+                                                    title="{{ $user->is_active ? 'Nonaktifkan Staff' : 'Aktifkan Staff' }}">
                                                     <span
-                                                        class="material-symbols-outlined text-[20px]">{{ $user->is_active ? 'block' : 'check_circle' }}</span>
+                                                        class="material-symbols-outlined text-[16px]">{{ $user->is_active ? 'block' : 'check_circle' }}</span>
+                                                    <span>{{ $user->is_active ? 'Nonaktifkan' : 'Aktifkan' }}</span>
                                                 </button>
                                             </form>
                                             @if ($user->id !== auth()->id())
                                                 <button
                                                     onclick="confirmDelete({{ $user->id }}, '{{ $user->name }}')"
-                                                    class="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                                                    title="Hapus">
-                                                    <span class="material-symbols-outlined text-[20px]">delete</span>
+                                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/40 border border-red-200 dark:border-red-800 transition-all hover:shadow-sm"
+                                                    title="Hapus Staff">
+                                                    <span class="material-symbols-outlined text-[16px]">delete</span>
+                                                    <span>Hapus</span>
                                                 </button>
                                             @endif
                                         </div>
@@ -231,6 +234,109 @@
                         {{ $users->links() }}
                     </div>
                 @endif
+            </div>
+
+            {{-- Permissions Matrix --}}
+            <div
+                class="bg-white dark:bg-[#111418] rounded-xl border border-slate-200 dark:border-gray-800 shadow-sm overflow-hidden">
+                <div class="p-6 border-b border-slate-200 dark:border-gray-800">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Permissions Matrix</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Kontrol akses berdasarkan role -
+                                Klik untuk toggle permission</p>
+                        </div>
+                        <button onclick="savePermissions()"
+                            class="bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors shadow-sm">
+                            <span class="material-symbols-outlined text-[18px]">save</span>
+                            Simpan Perubahan
+                        </button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 dark:bg-gray-800/50 border-b border-slate-200 dark:border-gray-700">
+                                <th
+                                    class="py-4 px-6 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider sticky left-0 bg-slate-50 dark:bg-gray-800/50 min-w-[250px]">
+                                    Module / Permission
+                                </th>
+                                @foreach ($roles as $role)
+                                    @php
+                                        $roleColors = [
+                                            'super_admin' => 'text-red-700 dark:text-red-300',
+                                            'admin' => 'text-purple-700 dark:text-purple-300',
+                                            'teknisi' => 'text-blue-700 dark:text-blue-300',
+                                            'kasir' => 'text-green-700 dark:text-green-300',
+                                        ];
+                                        $colorClass = $roleColors[$role->name] ?? 'text-slate-700 dark:text-slate-300';
+                                    @endphp
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold {{ $colorClass }} uppercase tracking-wider text-center min-w-[120px]">
+                                        <div class="flex flex-col items-center gap-1">
+                                            <span>{{ $role->display_name }}</span>
+                                            <span
+                                                class="text-[10px] font-normal text-slate-500 dark:text-slate-400">{{ $role->permissions->count() }}
+                                                permissions</span>
+                                        </div>
+                                    </th>
+                                @endforeach
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-gray-800">
+                            @foreach ($permissions as $moduleName => $modulePermissions)
+                                {{-- Module Header --}}
+                                <tr class="bg-slate-100 dark:bg-gray-800/30">
+                                    <td colspan="{{ $roles->count() + 1 }}"
+                                        class="py-2 px-6 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-[16px]">folder</span>
+                                            <span>{{ ucfirst($moduleName) }} Module</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{-- Permissions --}}
+                                @foreach ($modulePermissions as $permission)
+                                    <tr class="group hover:bg-slate-50 dark:hover:bg-gray-800/50 transition-colors">
+                                        <td
+                                            class="py-3 px-6 text-sm font-medium text-slate-900 dark:text-white sticky left-0 bg-white dark:bg-[#111418] group-hover:bg-slate-50 dark:group-hover:bg-gray-800/50">
+                                            <div class="flex items-center gap-2">
+                                                <span
+                                                    class="material-symbols-outlined text-[16px] text-slate-400">key</span>
+                                                <div>
+                                                    <div>{{ $permission->display_name }}</div>
+                                                    @if ($permission->description)
+                                                        <div class="text-xs text-slate-500 mt-0.5">
+                                                            {{ $permission->description }}</div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </td>
+                                        @foreach ($roles as $role)
+                                            @php
+                                                $hasPermission = $role->permissions->contains('id', $permission->id);
+                                            @endphp
+                                            <td class="py-3 px-6 text-center">
+                                                <button type="button"
+                                                    onclick="togglePermission({{ $role->id }}, {{ $permission->id }}, this)"
+                                                    class="inline-flex items-center justify-center w-full h-full transition-transform hover:scale-110"
+                                                    data-has-permission="{{ $hasPermission ? 'true' : 'false' }}">
+                                                    @if ($hasPermission)
+                                                        <span
+                                                            class="material-symbols-outlined text-[24px] text-green-600 dark:text-green-400">check_circle</span>
+                                                    @else
+                                                        <span
+                                                            class="material-symbols-outlined text-[24px] text-slate-300 dark:text-slate-600">cancel</span>
+                                                    @endif
+                                                </button>
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                @endforeach
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -388,6 +494,79 @@
                 form.action = `/manajemen-staff-rbac/${id}`;
                 form.submit();
             }
+        }
+
+        // Permission Toggle System
+        const permissionChanges = new Map();
+
+        function togglePermission(roleId, permissionId, button) {
+            const hasPermission = button.dataset.hasPermission === 'true';
+            const newState = !hasPermission;
+
+            // Update UI
+            const icon = button.querySelector('.material-symbols-outlined');
+            if (newState) {
+                icon.textContent = 'check_circle';
+                icon.className = 'material-symbols-outlined text-[24px] text-green-600 dark:text-green-400';
+            } else {
+                icon.textContent = 'cancel';
+                icon.className = 'material-symbols-outlined text-[24px] text-slate-300 dark:text-slate-600';
+            }
+            button.dataset.hasPermission = newState;
+
+            // Track changes
+            const key = `${roleId}-${permissionId}`;
+            permissionChanges.set(key, {
+                roleId: roleId,
+                permissionId: permissionId,
+                action: newState ? 'attach' : 'detach'
+            });
+        }
+
+        function savePermissions() {
+            if (permissionChanges.size === 0) {
+                alert('Tidak ada perubahan untuk disimpan');
+                return;
+            }
+
+            const changes = Array.from(permissionChanges.values());
+
+            // Show loading state
+            const btn = event.target.closest('button');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML =
+                '<span class="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> Menyimpan...';
+
+            // Send AJAX request
+            fetch('/api/permissions/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        changes: changes
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Permissions berhasil diupdate!');
+                        permissionChanges.clear();
+                        location.reload();
+                    } else {
+                        alert('Gagal menyimpan: ' + (data.message || 'Unknown error'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menyimpan permissions');
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                });
         }
 
         // Close modal when clicking outside
