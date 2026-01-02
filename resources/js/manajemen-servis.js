@@ -48,6 +48,31 @@ function initializeButtons() {
     if (exportBtn) {
         exportBtn.addEventListener("click", exportToCSV);
     }
+
+    // Initialize auto-search
+    initializeAutoSearch();
+}
+
+// Initialize auto-search functionality
+function initializeAutoSearch() {
+    const searchInput = document.querySelector('input[name="search"]');
+    if (!searchInput) return;
+
+    let debounceTimer;
+
+    searchInput.addEventListener("input", function (e) {
+        // Clear previous timer
+        clearTimeout(debounceTimer);
+
+        // Set new timer (delay 500ms after user stops typing)
+        debounceTimer = setTimeout(() => {
+            // Submit the form
+            const form = searchInput.closest("form");
+            if (form) {
+                form.submit();
+            }
+        }, 500);
+    });
 }
 
 // Set orders data from PHP

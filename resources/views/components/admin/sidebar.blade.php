@@ -49,12 +49,12 @@
                     @endif
 
                     @if (auth()->user()->hasPermission('view_customers'))
-                        <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('manajemen-pelanggan') ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-slate-50 dark:hover:bg-gray-800 text-slate-600 dark:text-slate-400' }} transition-colors"
-                            href="{{ route('manajemen-pelanggan') }}">
+                        <a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('manajemen-pelanggan.*') ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-slate-50 dark:hover:bg-gray-800 text-slate-600 dark:text-slate-400' }} transition-colors"
+                            href="{{ route('manajemen-pelanggan.index') }}">
                             <span
-                                class="material-symbols-outlined text-[20px] {{ request()->routeIs('manajemen-pelanggan') ? '' : 'group-hover:text-slate-800 dark:group-hover:text-slate-200' }} transition-colors">groups</span>
+                                class="material-symbols-outlined text-[20px] {{ request()->routeIs('manajemen-pelanggan.*') ? '' : 'group-hover:text-slate-800 dark:group-hover:text-slate-200' }} transition-colors">groups</span>
                             <span
-                                class="sidebar-text text-sm {{ request()->routeIs('manajemen-pelanggan') ? 'font-semibold' : 'font-medium group-hover:text-slate-900 dark:group-hover:text-white' }} flex-1 transition-colors opacity-100">Manajemen
+                                class="sidebar-text text-sm {{ request()->routeIs('manajemen-pelanggan.*') ? 'font-semibold' : 'font-medium group-hover:text-slate-900 dark:group-hover:text-white' }} flex-1 transition-colors opacity-100">Manajemen
                                 Pelanggan</span>
                         </a>
                     @endif

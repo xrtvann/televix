@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ServiceOrderController;
@@ -63,9 +64,15 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/manajemen-servis/{order}/update-status', [ServiceOrderController::class, 'updateStatus'])->name('manajemen-servis.update-status');
     });
 
-    Route::get('/manajemen-pelanggan', function () {
-        return view('pages.admin.manajemen-pelanggan');
-    })->name('manajemen-pelanggan')->middleware('permission:view_customers');
+    // Customer Routes
+    Route::middleware('permission:view_customers')->group(function () {
+        Route::get('/manajemen-pelanggan/export/csv', [CustomerController::class, 'export'])->name('manajemen-pelanggan.export');
+        Route::get('/manajemen-pelanggan', [CustomerController::class, 'index'])->name('manajemen-pelanggan.index');
+        Route::post('/manajemen-pelanggan', [CustomerController::class, 'store'])->name('manajemen-pelanggan.store');
+        Route::get('/manajemen-pelanggan/{customer}', [CustomerController::class, 'show'])->name('manajemen-pelanggan.show');
+        Route::put('/manajemen-pelanggan/{customer}', [CustomerController::class, 'update'])->name('manajemen-pelanggan.update');
+        Route::delete('/manajemen-pelanggan/{customer}', [CustomerController::class, 'destroy'])->name('manajemen-pelanggan.destroy');
+    });
 
     // Payment Routes
     Route::middleware('permission:view_payments')->group(function () {

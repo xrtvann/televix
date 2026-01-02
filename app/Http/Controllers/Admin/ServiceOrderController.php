@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
+use App\Models\Customer;
 use App\Models\ServiceOrder;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -97,6 +98,18 @@ class ServiceOrderController extends Controller
 
                 $order = ServiceOrder::create($validated);
 
+                // Create or update customer
+                $customer = Customer::firstOrCreate(
+                    ['phone' => $validated['customer_phone']],
+                    [
+                        'name' => $validated['customer_name'],
+                        'address' => $validated['customer_address'] ?? null,
+                    ]
+                );
+
+                // Update customer stats
+                $customer->updateServiceStats();
+
                 ActivityLog::log('order_created', $order, [
                     'created_by' => Auth::user()->name,
                     'order_number' => $order->order_number
@@ -126,7 +139,14 @@ class ServiceOrderController extends Controller
             $query->where('name', 'teknisi');
         })->get();
 
-        return view('pages.admin.service-detail', compact('order', 'technicians'));
+        // Get activity logs for this order
+        $activityLogs = ActivityLog::with('user')
+            ->where('model_type', ServiceOrder::class)
+            ->where('model_id', $order->id)
+            ->latest()
+            ->get();
+
+        return view('pages.admin.service-detail', compact('order', 'technicians', 'activityLogs'));
     }
 
     /**
@@ -149,6 +169,17 @@ class ServiceOrderController extends Controller
             'notes' => 'nullable|string',
         ]);
 
+        // Track changes
+        $changes = [];
+        foreach ($validated as $key => $value) {
+            if ($order->$key != $value) {
+                $changes[$key] = [
+                    'old' => $order->$key,
+                    'new' => $value
+                ];
+            }
+        }
+
         // If status changed to completed, set completed_at
         if ($validated['status'] === ServiceOrder::STATUS_COMPLETED && $order->status !== ServiceOrder::STATUS_COMPLETED) {
             $validated['completed_at'] = now();
@@ -156,10 +187,36 @@ class ServiceOrderController extends Controller
 
         $order->update($validated);
 
-        ActivityLog::log('order_updated', $order, [
-            'updated_by' => Auth::user()->name,
-            'order_number' => $order->order_number
-        ]);
+        // Update customer data if phone changed
+        if (isset($changes['customer_phone'])) {
+            $customer = Customer::where('phone', $validated['customer_phone'])->first();
+            if (!$customer) {
+                $customer = Customer::create([
+                    'phone' => $validated['customer_phone'],
+                    'name' => $validated['customer_name'],
+                    'address' => $validated['customer_address'] ?? null,
+                ]);
+            }
+            $customer->updateServiceStats();
+        } else {
+            // Update existing customer
+            $customer = Customer::where('phone', $order->customer_phone)->first();
+            if ($customer) {
+                $customer->update([
+                    'name' => $validated['customer_name'],
+                    'address' => $validated['customer_address'] ?? $customer->address,
+                ]);
+                $customer->updateServiceStats();
+            }
+        }
+
+        if (!empty($changes)) {
+            ActivityLog::log('order_updated', $order, [
+                'updated_by' => Auth::user()->name,
+                'order_number' => $order->order_number,
+                'changes' => $changes
+            ]);
+        }
 
         return redirect()->route('manajemen-servis.index')
             ->with('success', "Order {$order->order_number} berhasil diupdate!");
@@ -192,6 +249,9 @@ class ServiceOrderController extends Controller
             'technician_id' => 'required|exists:users,id',
         ]);
 
+        $technician = User::find($validated['technician_id']);
+        $oldTechnicianId = $order->technician_id;
+
         $order->update([
             'technician_id' => $validated['technician_id'],
             'status' => ServiceOrder::STATUS_DIAGNOSIS,
@@ -199,7 +259,9 @@ class ServiceOrderController extends Controller
 
         ActivityLog::log('technician_assigned', $order, [
             'assigned_by' => Auth::user()->name,
-            'technician_id' => $validated['technician_id']
+            'technician_name' => $technician->name,
+            'technician_id' => $validated['technician_id'],
+            'old_technician_id' => $oldTechnicianId
         ]);
 
         return redirect()->back()
